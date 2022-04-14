@@ -28,8 +28,21 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             lifecycleScope.launch {
+
+                //Allow User to define key and field:
+//                save(
+//                    binding.etSaveKey.text.toString(),
+//                    binding.etSaveKey.text.toString()
+//                )
+
+                //Pre-defined Keys:
                 save(
-                        binding.etSaveKey.text.toString(),
+                    "Name",
+                    binding.etSaveKey.text.toString()
+                )
+
+                save(
+                    "Age",
                         binding.etSaveValue.text.toString()
                 )
             }
