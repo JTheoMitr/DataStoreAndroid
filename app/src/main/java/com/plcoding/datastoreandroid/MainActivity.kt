@@ -3,7 +3,6 @@ package com.plcoding.datastoreandroid
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.datastore.core.DataStore
-import androidx.datastore.createDataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
@@ -24,10 +23,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        dataStore = createDataStore(name = "settings")
+
+
 
         binding.btnSave.setOnClickListener {
             lifecycleScope.launch {
+                UserStorage().run {
+                    dataStore = createDataStore(name = "settings")
+                    save("Name",
+                        binding.etSaveKey.text.toString()) }
 
                 //Allow User to define key and field:
 //                save(
@@ -36,21 +40,23 @@ class MainActivity : AppCompatActivity() {
 //                )
 
                 //Pre-defined Keys:
-                save(
-                    "Name",
-                    binding.etSaveKey.text.toString()
-                )
-
-                save(
-                    "Age",
-                        binding.etSaveValue.text.toString()
-                )
+//                save(
+//                    "Name",
+//                    binding.etSaveKey.text.toString()
+//                )
+//
+//                save(
+//                    "Age",
+//                        binding.etSaveValue.text.toString()
+//                )
             }
         }
 
         binding.btnRead.setOnClickListener {
             lifecycleScope.launch {
-                val value = read(binding.etReadkey.text.toString())
+                val value = UserStorage().run {
+                    read(binding.etReadkey.text.toString())
+                }
                 binding.tvReadValue.text = value ?: "No value found"
             }
         }
