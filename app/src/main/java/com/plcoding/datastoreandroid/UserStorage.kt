@@ -6,11 +6,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import kotlinx.coroutines.flow.first
 
-class UserStorage {
+class UserStorage() {
 
     private lateinit var dataStore: DataStore<Preferences>
 
     private suspend fun save(key: String, value: String) {
+
+        //dataStore = createDataStore(name = "settings")
 
         val dataStoreKey = preferencesKey<String>(key)
         dataStore.edit { settings ->

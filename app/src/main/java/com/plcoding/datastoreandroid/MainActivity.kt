@@ -1,5 +1,6 @@
 package com.plcoding.datastoreandroid
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.datastore.core.DataStore
@@ -28,10 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             lifecycleScope.launch {
-                UserStorage().run {
                     dataStore = createDataStore(name = "settings")
-                    save("Name",
-                        binding.etSaveKey.text.toString()) }
+                    save("refresh_token",
+                        binding.etSaveKey.text.toString())
+                // will be data.refresh_token after we add getTokenData (not binding.etSaveKey)
 
                 //Allow User to define key and field:
 //                save(
@@ -50,13 +51,15 @@ class MainActivity : AppCompatActivity() {
 //                        binding.etSaveValue.text.toString()
 //                )
             }
+            val intent = Intent(this, TokenActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnRead.setOnClickListener {
             lifecycleScope.launch {
-                val value = UserStorage().run {
-                    read(binding.etReadkey.text.toString())
-                }
+                val value = read(binding.etReadkey.text.toString())
+                            //will be read("refresh_token")
+
                 binding.tvReadValue.text = value ?: "No value found"
             }
         }
